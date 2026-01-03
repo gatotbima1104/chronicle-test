@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from "express";
 import { Application } from "express";
 import cors from "cors";
 import { PORT } from "./configs/config";
+import { productRouter } from "./models/product/route";
 
 export class App {
     private app: Application;
@@ -26,7 +27,9 @@ export class App {
         }))
     }
 
-    private routes() {}
+    private routes() {
+        this.app.use("/product", productRouter())
+    }
 
     private handleError() {
         this.app.use((req: Request, res: Response, next: NextFunction) => {
