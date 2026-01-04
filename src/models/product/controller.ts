@@ -7,9 +7,14 @@ export class ProductController {
     async createProduct(req: Request, res: Response, next: NextFunction) {
         try {
             const { name, price, stock } = req.body
+            const userId = req.user?.id
             
             const productExist = await prisma.product.findUnique({
-                where: { name, isDeleted: false }
+                where: { 
+                    name, 
+                    userId, 
+                    isDeleted: false
+                }
             })
             if (productExist) {
                 return res.status(400).send({
@@ -20,7 +25,12 @@ export class ProductController {
             const data: Prisma.ProductCreateInput = {
                 name,
                 price,
-                stock
+                stock,
+                user: {
+                    connect: {
+                        id: userId
+                    }
+                }
             }
             const newProduct: IProduct = await prisma.product.create({
                 data
@@ -36,7 +46,12 @@ export class ProductController {
     }
     async getListProducts(req: Request, res: Response, next: NextFunction) {
         try {
-            const data = await prisma.product.findMany({where: { isDeleted: false }})
+            const userId = req.user?.id
+            const role = req.user?.role
+            const data = await prisma.product.findMany({where: { 
+                isDeleted: false,
+                ...(role !== "USER" && userId ? { userId } : {})
+            }})
             res.status(200).send({
                 message: "success",
                 data
@@ -48,8 +63,13 @@ export class ProductController {
     async getProduct(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params
+            const userId = req.user?.id
             const productExist = await prisma.product.findUnique({
-                where: { id, isDeleted: false }
+                where: { 
+                    id,
+                    userId,
+                    isDeleted: false
+                }
             })
             if (!productExist) {
                 return res.status(404).send({
@@ -69,8 +89,14 @@ export class ProductController {
         try {
             const { id } = req.params
             const { name, price, stock } = req.body
+            const userId = req.user?.id
+
             const productExist = await prisma.product.findUnique({
-                where: { id, isDeleted: false }
+                where: { 
+                    id,
+                    userId,
+                    isDeleted: false
+                }
             })
             if (!productExist) {
                 return res.status(404).send({
@@ -96,8 +122,13 @@ export class ProductController {
     async deleteProduct(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params
+            const userId = req.user?.id
             const productExist = await prisma.product.findUnique({
-                where: { id, isDeleted: false }
+                where: { 
+                    id,
+                    userId,
+                    isDeleted: false
+                }
             })
             if (!productExist) {
                 return res.status(404).send({

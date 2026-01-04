@@ -30,6 +30,7 @@ model User {
   email    String  @unique
   password String
   orders   Order[]
+  products Product[]
   role     Role    @default(USER)
 
   createdAt DateTime @default(now())
@@ -43,6 +44,9 @@ model Product {
   name  String @unique
   stock Int
   price Float
+  
+  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -63,9 +67,9 @@ model Order {
   updatedAt DateTime @updatedAt
   isDeleted Boolean  @default(false)
 
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
-  user      User    @relation(fields: [userId], references: [id])
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
 
   @@map("orders")

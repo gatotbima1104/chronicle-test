@@ -31,7 +31,7 @@ export const verifyRole = (req: Request, res: Response, next: NextFunction) => {
     const token = authorization?.split("Bearer ")[1]
 
     const decodedToken = verify(token as string, JWT_SECRET) as { role: string }        
-    if (decodedToken.role === "CUSTOMER") {
+    if (decodedToken.role === "USER") {
         throw new Error ("The resources are not allowed!")
     }
     next()
