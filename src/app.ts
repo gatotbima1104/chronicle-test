@@ -3,6 +3,7 @@ import { Application } from "express";
 import cors from "cors";
 import { PORT } from "./configs/config";
 import { productRouter } from "./models/product/route";
+import { authRouter } from "./models/auth/route";
 
 export class App {
     private app: Application;
@@ -29,6 +30,7 @@ export class App {
 
     private routes() {
         this.app.use("/product", productRouter())
+        this.app.use("/auth", authRouter())
     }
 
     private handleError() {

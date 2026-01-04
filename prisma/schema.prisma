@@ -19,6 +19,25 @@ enum OrderStatus {
   CANCELLED
 }
 
+enum Role {
+  ADMIN
+  SUPER_ADMIN
+  USER
+}
+
+model User {
+  id       String  @id @default(uuid())
+  email    String  @unique
+  password String
+  orders   Order[]
+  role     Role    @default(USER)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
 model Product {
   id    String @id @default(uuid())
   name  String @unique
@@ -46,6 +65,8 @@ model Order {
 
   product   Product @relation(fields: [productId], references: [id])
   productId String
+  user      User    @relation(fields: [userId], references: [id])
+  userId    String
 
   @@map("orders")
 }
