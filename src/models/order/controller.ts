@@ -82,7 +82,8 @@ export class OrderController {
                         id: order.id
                     },
                     data: {
-                        totalPrice
+                        totalPrice,
+                        status: "PROCESSING"
                     }
                 })
             })
