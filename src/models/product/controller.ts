@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../configs/config";
 import { IProduct } from "../../interfaces/product.interface";
+import { redisClient } from "../../third-party/redis.config";
 
 export class ProductController {
     async createProduct(req: Request, res: Response, next: NextFunction) {
@@ -64,6 +65,18 @@ export class ProductController {
         try {
             const { id } = req.params
             const userId = req.user?.id
+
+            // Redisc caching 
+            const key = `product:${userId}:${id}`
+            const cachedProduct = await redisClient.get(key)
+            if (cachedProduct) {
+                return res.status(200).send({
+                    message: "success (from redis)",
+                    data: JSON.parse(cachedProduct)
+                })
+            }
+
+            // Database working
             const productExist = await prisma.product.findUnique({
                 where: { 
                     id,
@@ -76,6 +89,14 @@ export class ProductController {
                     message: "Product not found"
                 })
             }
+
+            // Set to redis for first time
+            await redisClient.set(
+                key,
+                JSON.stringify(productExist),
+                "EX",
+                120
+            )
             
             res.status(200).send({
                 message: "success",
