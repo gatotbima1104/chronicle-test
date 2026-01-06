@@ -21,3 +21,6 @@ export const JWT_SECRET = process.env.JWT_SECRET || "";
 // REDIS
 export const REDIS_HOST = process.env.REDIS_HOST || "";
 export const REDIS_PORT = Number(process.env.REDIS_PORT || 8002);
+
+// CELERY
+export const CELERY_API = process.env.CELERY_API || "";

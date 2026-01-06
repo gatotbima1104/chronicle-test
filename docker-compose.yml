@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   api:
-    build: .
+    build: ./api
     container_name: chronicle-api
     ports:
       - "8000:8000"
@@ -11,9 +11,8 @@ services:
     depends_on:
       - db
       - redis
+      - celery-api
     command: npm run start:dev
-    volumes:
-      - .:/app
     restart: unless-stopped
 
   db:
@@ -39,6 +38,25 @@ services:
     env_file:
       - .env
     restart: unless-stopped
+
+  celery-api:
+    build: 
+      context: ./celery-worker
+      dockerfile: Dockerfile.api
+    container_name: chronicle-celery-api
+    env_file: .env
+    depends_on:
+      - redis
+      
+  celery-worker:
+    build:
+      context: ./celery-worker
+      dockerfile: Dockerfile.worker
+    container_name: chronicle-celery-worker
+    env_file: .env
+    depends_on:
+      - redis
+      - db
 
 volumes:
   postgres_data:

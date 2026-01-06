@@ -17,3 +17,14 @@ redisClient.on("connect", () => {
 redisClient.on("error", (err) => {
   console.error("Redis error:", err.message);
 });
+
+// queueing order to celery
+export async function queueOrder(orderId: string) {
+  await redisClient.lpush(
+    "celery",
+    JSON.stringify({ 
+      task: "worker.tasks.process_order",
+      args: [orderId],
+      kwargs: {}
+    }))
+}
