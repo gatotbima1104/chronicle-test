@@ -80,7 +80,7 @@ export class ProductController {
             const productExist = await prisma.product.findUnique({
                 where: { 
                     id,
-                    userId,
+                    // userId,
                     isDeleted: false
                 }
             })
