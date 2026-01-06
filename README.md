@@ -16,8 +16,6 @@
 - **Containerization: Docker Compose**
 
 
-//////////////////////////////////////////////////////////////////
-
 ## Setup using Docker
 - **Docker Installed**
 
@@ -34,8 +32,6 @@
 
 ```
 
-//////////////////////////////////////////////////////////////////
-
 ## Handling Race Condition (Stock Management)
 To avoid overselling during the concurrent purchases, the app uses Atomic database-level operations to provide it, why?
 
@@ -47,8 +43,6 @@ To avoid overselling during the concurrent purchases, the app uses Atomic databa
 
 The query is atomic, then the pg is guarantees only one transaction succeds if, if the stock is < 1 transaction must be failed.
 
-
-//////////////////////////////////////////////////////////////////
 
 ## Postman Collection
 
@@ -64,8 +58,6 @@ This project includes a complete **Postman Collection** for testing all availabl
 3. Paste the JSON below **or** save it as `chronicle.postman_collection.json` and import the file
 4. Set the environment variable:
 
-
-//////////////////////////////////////////////////////////////////
 
 ### JSON with default host (http://localhost:8000)
 
