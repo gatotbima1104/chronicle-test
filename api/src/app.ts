@@ -5,6 +5,8 @@ import { PORT } from "./configs/config";
 import { productRouter } from "./models/product/route";
 import { authRouter } from "./models/auth/route";
 import { orderRouter } from "./models/order/route";
+import { apiLimiter } from "./middlewares/limiter.middleware";
+
 
 export class App {
     private app: Application;
@@ -13,7 +15,7 @@ export class App {
         this.app = express();
         this.configure();
         this.routes();
-        this.handleError();
+        this.handleError(); 
     }
 
     public get instance(): Application {
@@ -27,6 +29,7 @@ export class App {
             methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
             allowedHeaders: "Content-Type,Authorization",
         }))
+        this.app.use(apiLimiter)
     }
 
     private routes() {
