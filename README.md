@@ -16,6 +16,20 @@
 - **Containerization: Docker Compose**
 
 
+## Scenarios to test
+1. Create a product
+- Register as role: ADMIN
+- Login as registered account with role: ADMIN
+- Create a product
+
+2. Order
+- Register as role: USER
+- Login as registered account with role: USER
+- Create an order
+
+<img width="1126" height="230" alt="Screenshot 2026-01-08 at 12 56 43" src="https://github.com/user-attachments/assets/21799daf-c425-4c3b-a11e-ab5d803441f7" />
+
+
 ## Setup using Docker
 - **Docker Installed**
 
