@@ -6,6 +6,7 @@
 - **Order with Background Task (Celery)**
 - **Docker Compose Implemented**
 - **API Cahced use Redis**
+- **Rate Limiter**
 
 ## Tech Stack
 - **API: Express-Typescript & Flask-Python**
@@ -64,6 +65,10 @@ This project includes a complete **Postman Collection** for testing all availabl
 - Authentication
 - Product CRUD
 - Order creation (with background processing)
+- Note there is rate limit for each API's testing
+
+<img width="681" height="159" alt="Screenshot 2026-01-08 at 18 03 30" src="https://github.com/user-attachments/assets/aa50a7a8-5ebb-4d1f-88f5-5c61367a0964" />
+
 
 ### How to Use
 
